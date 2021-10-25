@@ -1,5 +1,4 @@
 package com.paul.primera.api
-
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
