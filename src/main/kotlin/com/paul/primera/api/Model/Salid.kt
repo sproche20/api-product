@@ -11,5 +11,8 @@ class Salid {
     var id: Long? = null
     var salid: String?=null
     var horasal: String? = null
+    var id__chofer:Long?=null
+
+
 
 }

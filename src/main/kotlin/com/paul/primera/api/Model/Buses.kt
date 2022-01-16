@@ -12,4 +12,6 @@ class Buses {
     var marcas: String? = null
     var placas: String?= null
     var pasageros: Long?= null
+    var id__chofer:Long?=null
+
 }

@@ -25,6 +25,7 @@ class ChoferService {
             return ChoferRepository.save(chofer)
         }
 
+
     }
     fun update(chofer: Chofer):Chofer {
         return ChoferRepository.save(chofer)
@@ -48,5 +49,15 @@ class ChoferService {
     fun delete (id:Long): Boolean{
         ChoferRepository.deleteById(id)
         return true
+    }
+    fun verifycedulalength(description:  String?): Boolean{
+
+
+        if (description?.length!!<10){
+            return false
+
+        }
+        return true
+
     }
 }

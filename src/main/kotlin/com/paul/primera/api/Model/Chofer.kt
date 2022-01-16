@@ -11,5 +11,6 @@ class Chofer {
     var id: Long? = null
     var chofers: String? = null
     var cedula: String?= null
-    var licence: Int?= null
+    var licence: Long?= null
+
 }
