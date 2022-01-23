@@ -12,4 +12,6 @@ class Rutas {
     var id:Long? = null
     var ruta: String? = null
     var tiempo: String? =null
+    var bus__id:Long?=null
+
 }

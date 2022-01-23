@@ -2,6 +2,7 @@ package com.paul.primera.api.services
 
 import com.paul.primera.api.Model.Buses
 import com.paul.primera.api.repository.BusesRepository
+import com.paul.primera.api.repository.ChoferRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -11,18 +12,21 @@ import org.springframework.web.server.ResponseStatusException
 class BusesService {
     @Autowired
     lateinit var BusesRepository: BusesRepository
+    lateinit var ChoferRepository: ChoferRepository
     fun list(): List<Buses> {
         return BusesRepository.findAll()
+
     }
 
     @PostMapping
     fun save (buses: Buses): Buses {
-        if (buses.marcas.equals("")){
-            throw Exception()
-
-        }else
-        {
+        try{
+            buses.marcas?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception()
+            ChoferRepository.findById(buses.id__chofer)
             return BusesRepository.save(buses)
+        }catch (ex:Exception){
+            throw ex
         }
     }
     fun update(buses: Buses): Buses {

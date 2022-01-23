@@ -17,13 +17,14 @@ class RutasService {
     }
     @PostMapping
     fun save (rutas: Rutas):Rutas {
-        if (rutas.ruta.equals(""))
-        {
-            throw Exception("ruta no encontrada")
-        }else
-        {
-            return rutasRepository.save(rutas)
+        try{
+            rutas.ruta?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception()
+                return rutasRepository.save(rutas)
+        }catch (ex:Exception){
+            throw ex
         }
+
     }
     fun update(rutas: Rutas):Rutas  {
         return rutasRepository.save(rutas)

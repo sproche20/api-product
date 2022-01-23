@@ -16,13 +16,12 @@ class ChoferService {
     }
     @PostMapping
     fun save (chofer: Chofer):Chofer {
-
-        if (chofer.chofers.equals("")){
-            throw Exception()
-
-        }else
-        {
+        try{
+            chofer.chofers?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception()
             return ChoferRepository.save(chofer)
+        }catch (ex:Exception){
+            throw ex
         }
 
 
@@ -34,7 +33,7 @@ class ChoferService {
     fun updateDescription (chofer: Chofer):Chofer{
         try{
             val response = ChoferRepository.findById(chofer.id)
-                ?: throw Exception()
+                ?: throw Exception("tiene que existir los datos del chofer")
             response.apply {
                 this.chofers=chofer.chofers
 

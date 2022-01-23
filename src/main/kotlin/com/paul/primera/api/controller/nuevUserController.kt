@@ -18,4 +18,5 @@ class nuevUserController {
         return nuevUserService.save(user)
     }
 
+
 }

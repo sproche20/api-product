@@ -1,6 +1,8 @@
 package com.paul.primera.api.services
 
 import com.paul.primera.api.Model.Salid
+import com.paul.primera.api.repository.BusesRepository
+import com.paul.primera.api.repository.RutasRepository
 import com.paul.primera.api.repository.SalidRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -11,17 +13,21 @@ import org.springframework.web.server.ResponseStatusException
 class SalidService {
     @Autowired
     lateinit var salidRepository: SalidRepository
+    lateinit var busesRepository: BusesRepository
+    lateinit var rutasRepository: RutasRepository
     fun list(): List<Salid> {
         return salidRepository.findAll()
     }
     @PostMapping
     fun save (salid: Salid):Salid {
-        if (salid.horasal.equals(""))
-        {
-            throw Exception()
-        }else
-        {
+        try{
+            salid.horasal?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception()
+            busesRepository.findById(salid.bus__id)
+            rutasRepository.findById(salid.ruta__id)
             return salidRepository.save(salid)
+        }catch (ex:Exception){
+            throw ex
         }
 
     }
