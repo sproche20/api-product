@@ -43,7 +43,7 @@ class salidaServiceTest {
     fun createSalida(){
         Mockito.`when`(busesRepository.findById(salidaMock.bus__id)).thenReturn(busMock)
 
-        //Mockito.`when`(RutasRepository.findById(salidaMock.ruta__id)).thenReturn(rutasMock)
+        Mockito.`when`(rutasRepository.findById(salidaMock.ruta__id)).thenReturn(rutasMock)
 
         Mockito.`when`(salidRepository.save(Mockito.any(Salid::class.java))).thenReturn(salidaMock)
         val response = salidService.save(salidaMock)
