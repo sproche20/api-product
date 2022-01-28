@@ -1,6 +1,7 @@
 package com.paul.primera.api.service
 
 import com.google.gson.Gson
+import com.paul.primera.api.Model.Chofer
 import com.paul.primera.api.Model.Rutas
 
 import com.paul.primera.api.repository.RutasRepository
@@ -36,6 +37,39 @@ class rutasServiceTest {
             Mockito.`when`(rutasRepository.save(Mockito.any(Rutas::class.java))).thenReturn(rutasMock)
             rutasService.save(rutasMock)
         }
+    }
+    @Test
+    fun updateIsCorrect(){
+        Mockito.`when`(rutasRepository.findById(rutasMock.id)).thenReturn(rutasMock)
+        Mockito.`when`(rutasRepository.save(Mockito.any(Rutas::class.java))).thenReturn(rutasMock)
+        val response=rutasService.update(rutasMock)
+        Assertions.assertEquals(response.id,rutasMock.id)
+        Assertions.assertEquals(response.ruta,rutasMock.ruta)
+
+
+
+    }
+    @Test
+    fun updateIsNotExistedFailed(){
+        Assertions.assertThrows(Exception::class.java){
+            Mockito.`when`(rutasRepository.findById(rutasMock.id)).thenReturn(null)
+            Mockito.`when`(rutasRepository.save(Mockito.any(Rutas::class.java))).thenReturn(rutasMock)
+            rutasService.update(rutasMock)
+        }
+
+    }
+    @Test
+    fun updateIsFailedWhenDescriptionIsNull(){
+        rutasMock.apply {
+            ruta=" "
+        }
+        Mockito.`when`(rutasRepository.findById(rutasMock.id)).thenReturn(rutasMock)
+        Mockito.`when`(rutasRepository.save(Mockito.any(Rutas::class.java))).thenReturn(rutasMock)
+        val response= rutasService.update(rutasMock)
+        Assertions.assertEquals(response.id,rutasMock.id)
+        Assertions.assertEquals(response.ruta,rutasMock.ruta)
+
+
     }
 
 }

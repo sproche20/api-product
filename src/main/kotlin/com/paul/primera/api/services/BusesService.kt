@@ -37,14 +37,15 @@ class BusesService {
         try{
             buses.marcas?.trim()?.isEmpty()
                 ?:throw java.lang.Exception("la descripcion no puede estar vacio")
-            if (buses.marcas.equals("")){
-                throw throw java.lang.Exception("la descripcion no puede estar vacio")
+            if (buses.placas.equals("")){
+                throw throw java.lang.Exception("coloque las placas ")
             }
             val response = BusesRepository.findById(buses.id)
                 ?: throw Exception()
             response.apply {
                 this.marcas = buses.marcas
             }
+            ChoferRepository.findById(buses.id__chofer)
             return BusesRepository.save(response)
         }
         catch (ex: Exception) {

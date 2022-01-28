@@ -49,4 +49,43 @@ class BusesServiceTest {
             busesService.save(busMock)
         }
     }
+    @Test
+    fun updateIsCorrect(){
+        Mockito.`when`(choferRepository.findById(busMock.id__chofer)).thenReturn(choferMock)
+
+        Mockito.`when`(busesRepository.findById(busMock.id)).thenReturn(busMock)
+        Mockito.`when`(busesRepository.save(Mockito.any(Buses::class.java))).thenReturn(busMock)
+        val response=busesService.update(busMock)
+        Assertions.assertEquals(response.id,busMock.id)
+        Assertions.assertEquals(response.marcas,busMock.marcas)
+        Assertions.assertEquals(response.placas, busMock.placas)
+
+
+
+    }
+    @Test
+    fun updateIsNotExistedFailed(){
+        Assertions.assertThrows(Exception::class.java){
+            Mockito.`when`(busesRepository.findById(busMock.id)).thenReturn(null)
+            Mockito.`when`(busesRepository.save(Mockito.any(Buses::class.java))).thenReturn(busMock)
+            busesService.update(busMock)
+        }
+
+    }
+    @Test
+    fun updateIsFailedWhenDescriptionIsNull(){
+        busMock.apply {
+            marcas=" "
+        }
+
+        Mockito.`when`(choferRepository.findById(busMock.id__chofer)).thenReturn(choferMock)
+        Mockito.`when`(busesRepository.findById(busMock.id)).thenReturn(busMock)
+        Mockito.`when`(busesRepository.save(Mockito.any(Buses::class.java))).thenReturn(busMock)
+        val response= busesService.update(busMock)
+        Assertions.assertEquals(response.id,busMock.id)
+        Assertions.assertEquals(response.marcas,busMock.marcas)
+
+
+    }
+
 }

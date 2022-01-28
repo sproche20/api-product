@@ -37,12 +37,19 @@ class SalidService {
 
     fun updateDescription (salid: Salid): Salid{
         try{
+
+            salid.salid?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception("agregar salida")
             val response = salidRepository.findById(salid.id)
-                ?: throw Exception()
+                ?: throw Exception("tiene que existir ID ")
+
+
             response.apply {
                 this.horasal=salid.horasal
 
             }
+            busesRepository.findById(salid.bus__id)
+            rutasRepository.findById(salid.ruta__id)
             return salidRepository.save(response)
         }
         catch (ex: Exception) {

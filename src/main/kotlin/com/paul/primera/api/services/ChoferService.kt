@@ -27,11 +27,23 @@ class ChoferService {
 
     }
     fun update(chofer: Chofer):Chofer {
-        return ChoferRepository.save(chofer)
+        try{
+            if(chofer.equals(" "))
+            ChoferRepository.findById(chofer.id)
+                ?:throw Exception()
+            return ChoferRepository.save(chofer)
+        }catch (ex:Exception){
+            throw Exception()
+        }
+
     }
 
     fun updateDescription (chofer: Chofer):Chofer{
         try{
+            chofer.chofers?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception("agregar chofer")
+            chofer.cedula?.takeIf { it.trim().isNotEmpty() }
+                ?:throw Exception("agregar cedula")
             val response = ChoferRepository.findById(chofer.id)
                 ?: throw Exception("tiene que existir los datos del chofer")
             response.apply {

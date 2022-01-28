@@ -51,4 +51,41 @@ class salidaServiceTest {
         Assertions.assertEquals(response.salid, salidaMock.salid)
         Assertions.assertEquals(response.horasal, salidaMock.horasal)
     }
+    @Test
+    fun updateIsCorrect(){
+        Mockito.`when`(busesRepository.findById(salidaMock.bus__id)).thenReturn(busMock)
+
+        Mockito.`when`(rutasRepository.findById(salidaMock.ruta__id)).thenReturn(rutasMock)
+        Mockito.`when`(salidRepository.findById(salidaMock.id)).thenReturn(salidaMock)
+        Mockito.`when`(salidRepository.save(Mockito.any(Salid::class.java))).thenReturn(salidaMock)
+        val response=salidService.update(salidaMock)
+        Assertions.assertEquals(response.id,salidaMock.id)
+        Assertions.assertEquals(response.salid,salidaMock.salid)
+        Assertions.assertEquals(response.horasal, salidaMock.horasal)
+
+
+
+    }
+    @Test
+    fun updateIsNotExistedFailed(){
+        Assertions.assertThrows(Exception::class.java){
+            Mockito.`when`(salidRepository.findById(salidaMock.id)).thenReturn(null)
+            Mockito.`when`(salidRepository.save(Mockito.any(Salid::class.java))).thenReturn(salidaMock)
+            salidService.update(salidaMock)
+        }
+
+    }
+    @Test
+    fun updateIsFailedWhenDescriptionIsNull(){
+        salidaMock.apply {
+            salid=" "
+        }
+        Mockito.`when`(salidRepository.findById(salidaMock.id)).thenReturn(salidaMock)
+        Mockito.`when`(salidRepository.save(Mockito.any(Salid::class.java))).thenReturn(salidaMock)
+        val response= salidService.update(salidaMock)
+        Assertions.assertEquals(response.id,salidaMock.id)
+        Assertions.assertEquals(response.salid,salidaMock.salid)
+
+
+    }
 }

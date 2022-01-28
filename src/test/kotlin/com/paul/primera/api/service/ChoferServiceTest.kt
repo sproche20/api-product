@@ -20,7 +20,7 @@ class ChoferServiceTest {
     @Mock
     lateinit var choferRepository: ChoferRepository
 
-   /* val returnObject: Chofer = Chofer().apply {
+    val returnObject: Chofer = Chofer().apply {
         id= 1
         chofers="Pedro"
         cedula="010523897"
@@ -39,8 +39,9 @@ class ChoferServiceTest {
         Assertions.assertEquals(response.id, newObject.id)
         Assertions.assertEquals(response.chofers, newObject.chofers)
 
+
     }
-    */
+
 
     val jsonString = File("./src/test/resources/chofer.json").readText(Charsets.UTF_8)
     val choferMock = Gson().fromJson(jsonString, Chofer::class.java)
@@ -61,4 +62,39 @@ class ChoferServiceTest {
             choferService.save(choferMock)
         }
     }
+    @Test
+    fun updateIsCorrect(){
+        Mockito.`when`(choferRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(choferRepository.save(Mockito.any(Chofer::class.java))).thenReturn(returnObject)
+        val response=choferService.update(newObject)
+        Assertions.assertEquals(response.id,newObject.id)
+        Assertions.assertEquals(response.chofers,newObject.chofers)
+        Assertions.assertEquals(response.cedula, choferMock.cedula)
+
+
+
+    }
+    @Test
+    fun updateIsNotExistedFailed(){
+        Assertions.assertThrows(Exception::class.java){
+            Mockito.`when`(choferRepository.findById(returnObject.id)).thenReturn(null)
+            Mockito.`when`(choferRepository.save(Mockito.any(Chofer::class.java))).thenReturn(returnObject)
+            choferService.update(choferMock)
+        }
+
+    }
+    @Test
+    fun updateIsFailedWhenDescriptionIsNull(){
+        newObject.apply {
+            chofers=" "
+        }
+        Mockito.`when`(choferRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(choferRepository.save(Mockito.any(Chofer::class.java))).thenReturn(returnObject)
+        val response= choferService.update(newObject)
+        Assertions.assertEquals(response.id,newObject.id)
+        Assertions.assertEquals(response.chofers,newObject.chofers)
+
+
+    }
+
 }
