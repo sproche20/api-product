@@ -17,18 +17,7 @@ class PrimeraApiApplicationTests {
 	@Test
 	fun contextLoads() {
 	}
-	@Test
-	fun verifycedulalengthisIncorrect(){
-		val response: Boolean=choferService.verifycedulalength( "123")
-		Assertions.assertEquals(false,response)
 
-	}
-	@Test
-	fun verifycedulalengthisCorrect(){
-		val response: Boolean=choferService.verifycedulalength( "1234567890")
-		Assertions.assertEquals(true,response)
-
-	}
 
 
 }

@@ -61,14 +61,12 @@ class ChoferService {
         ChoferRepository.deleteById(id)
         return true
     }
-    fun verifycedulalength(description:  String?): Boolean{
-
-
-        if (description?.length!!<10){
-            return false
-
+    fun UpdateChoferIfPassedList(description: String): Boolean{
+        val lista= listOf<String>("Pedro","Pablo","Mauricio");
+        if (description.equals(lista)){
+            return true
         }
-        return true
+        return false
 
     }
 }
